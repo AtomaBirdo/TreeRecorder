@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "83158046488",
+    "firebase_url": "https://tptrees-a2042.firebaseio.com",
+    "project_id": "tptrees-a2042",
+    "storage_bucket": "tptrees-a2042.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:83158046488:android:c8b7af6d3161d7432f706d",
+        "android_client_info": {
+          "package_name": "com.example.treerecorder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "83158046488-tv0lotb46f25c6tg7frfsur2jr4tugfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGmhxYi7YYkCYPxIi0ew2cnvWLAPqrYNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "83158046488-tv0lotb46f25c6tg7frfsur2jr4tugfl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
