@@ -36,16 +36,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         textView = (TextView) findViewById(R.id.coordiate);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+        /*if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             OnGPS();
-        }
-
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
+        }else{*/
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 10);
-        }
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 10);
+            }else{
+                Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+                onLocationChanged(location);
+            }
+        //}
+
         //Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
         //onLocationChanged(location);
 
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         longitude = Double.parseDouble(("" + location.getLongitude()).substring(0, 8));
         latitude = Double.parseDouble(("" + location.getLatitude()).substring(0, 8));
-        //textView.setText("" + longitude + ", " + latitude);
+
     }
 
     @Override
