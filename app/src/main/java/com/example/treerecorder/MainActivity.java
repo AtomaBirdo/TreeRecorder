@@ -29,6 +29,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.nio.MappedByteBuffer;
 import java.util.ArrayList;
 
+/**
+ * Created by James Wang and Tianwei Liu on 11/7/2019
+ */
+
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private TextView textView, textView2;

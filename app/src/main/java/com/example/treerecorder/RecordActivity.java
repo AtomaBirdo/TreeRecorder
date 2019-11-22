@@ -13,6 +13,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * Created by James Wang on 11/7/2019
+ */
+
 public class RecordActivity extends AppCompatActivity {
 
     @Override
