@@ -33,7 +33,7 @@ public class RecordActivity extends AppCompatActivity {
     private TextView treeType, treeLatin, treeLatitude, treeLongitude, treeDescription;
     private Button fillLocation, submitInfo;
 
-    public void fill(View view){
+    public void fill(View view){ //Autofill the current longitude and latitude
         treeLatitude.setText("" + MainActivity.latitude);
         treeLongitude.setText("" + MainActivity.longitude);
     }
@@ -44,7 +44,7 @@ public class RecordActivity extends AppCompatActivity {
         Tree temp = new Tree(treeType.getText().toString(), treeLatin.getText().toString(),
                 Double.parseDouble(treeLatitude.getText().toString()),
                 Double.parseDouble(treeLongitude.getText().toString()),
-                treeDescription.getText().toString());
-        rootRef.child("Trees").child(temp.generateName()).setValue(temp);
+                treeDescription.getText().toString()); //Create a tree to upload to the database
+        rootRef.child("Trees").child(temp.generateName()).setValue(temp); //Upload the tree to firebase
     }
 }
