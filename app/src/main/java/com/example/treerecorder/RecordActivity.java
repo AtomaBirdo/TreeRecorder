@@ -13,6 +13,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * Created by James Wang on 11/7/2019
+ */
+
 public class RecordActivity extends AppCompatActivity {
 
     @Override
@@ -34,17 +38,21 @@ public class RecordActivity extends AppCompatActivity {
     private Button fillLocation, submitInfo;
 
     public void fill(View view){
+        //-------------------------------------------
+        //Autofill the current longitude and latitude
+        //to the respective TextView
+        //-------------------------------------------
         treeLatitude.setText("" + MainActivity.latitude);
         treeLongitude.setText("" + MainActivity.longitude);
     }
 
-    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference(); //Get the root reference from the database
 
     public void submit(View view){
         Tree temp = new Tree(treeType.getText().toString(), treeLatin.getText().toString(),
                 Double.parseDouble(treeLatitude.getText().toString()),
                 Double.parseDouble(treeLongitude.getText().toString()),
-                treeDescription.getText().toString());
-        rootRef.child("Trees").child(temp.generateName()).setValue(temp);
+                treeDescription.getText().toString()); //Create a tree to upload to the database
+        rootRef.child("Trees").child(temp.generateName()).setValue(temp); //Upload the tree to firebase
     }
 }

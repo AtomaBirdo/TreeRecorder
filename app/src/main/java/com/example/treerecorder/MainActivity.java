@@ -149,15 +149,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         /*if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             OnGPS();
         }else{*/
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 10);
-            }else{
-                Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-                onLocationChanged(location);
-            }
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 10);
+        }else{
+            Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+            onLocationChanged(location);
+        }
         //}
 
         //Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onProviderDisabled(String provider) {
-        
+
     }
     //--------------------------------------------------------------------------
     //When the current location button is clicked, pass the location variable to
