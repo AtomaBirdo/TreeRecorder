@@ -15,6 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by James Wang on 11/7/2019
+ * This activity helped to merge users'
+ * input of tree information and upload
+ * to Firebase
  */
 
 public class RecordActivity extends AppCompatActivity {
@@ -53,6 +56,6 @@ public class RecordActivity extends AppCompatActivity {
                 Double.parseDouble(treeLatitude.getText().toString()),
                 Double.parseDouble(treeLongitude.getText().toString()),
                 treeDescription.getText().toString()); //Create a tree to upload to the database
-        rootRef.child("Trees").child(temp.generateName()).setValue(temp); //Upload the tree to firebase
+        rootRef.child("Trees").child(temp.generateName()).setValue(temp); //Upload the tree to firebase with a set key value
     }
 }
