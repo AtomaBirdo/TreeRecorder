@@ -1,7 +1,13 @@
 package com.example.treerecorder;
 
 import java.util.ArrayList;
-
+//**************************************************************************************************
+//This class is designed to refer to a Tree object, which have attributes Type, Latin, Description,
+//Latitude, and Longitude. The methods in this class are getter/setters, a toString, a helper method
+//getDistance that will return the distance between two locations and a getNearestTree method which
+//returns the location of nearest tree and its position on the static arraylist treeArray.
+//James Wang, Tianwei Liu, 11/21, Version 1.0
+//**************************************************************************************************
 public class Tree {
     private String type;
     private String latin;
@@ -36,25 +42,18 @@ public class Tree {
                 ", description='" + description + '\'' +
                 '}';
     }
-
+    //----------------------------------------------------------------
+    //use pythagorean theorem to obtain the distance between two trees
+    //----------------------------------------------------------------
     public double getDistance(Tree a){
         double b = Math.sqrt(Math.pow(this.getLatitude()-a.getLatitude(),2) + Math.pow(this.getLongitude()-a.getLongitude(),2));
         return b;
     }
 
-    public Tree getNearestTree(ArrayList<Tree> a){
-        int j = 0;
-        double sDist = this.getDistance(a.get(0));
-        double dist;
-        for(int i = 0; i < a.size(); i++){
-            dist = this.getDistance(a.get(i));
-            if(dist < sDist) {
-                j = i;
-                sDist = dist;
-            }
-        }
-        return a.get(j);
-    }
+    //-----------------------------------------------------------------------
+    //returns the location of the nearest tree using the sorting of array and
+    //the comparing of distances between two objects.
+    //-----------------------------------------------------------------------
 
     public int getNearestTreeLoc(ArrayList<Tree> a){
         int j = 0;

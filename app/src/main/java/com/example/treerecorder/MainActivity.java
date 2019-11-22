@@ -33,7 +33,7 @@ import java.util.ArrayList;
 //in the program and record all the trees from firebase
 //to local tree class, allowing future accesses. Locat-
 //ing GPS location is also performed in this class
-//Tianwei Liu, James Wang. 11/21 Version 1.0
+//James Wang. Tianwei Liu, 11/21 Version 1.0
 //*****************************************************
 public class MainActivity extends AppCompatActivity implements LocationListener {
     //--------------------------------------------------------
