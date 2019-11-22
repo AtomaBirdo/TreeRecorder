@@ -28,22 +28,37 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.nio.MappedByteBuffer;
 import java.util.ArrayList;
-
+//*****************************************************
+//This class is used to set up the main activity screen
+//in the program and record all the trees from firebase
+//to local tree class, allowing future accesses. Locat-
+//ing GPS location is also performed in this class
+//Tianwei Liu, James Wang. 11/21 Version 1.0
+//*****************************************************
 public class MainActivity extends AppCompatActivity implements LocationListener {
-
+    //--------------------------------------------------------
+    //Setting up necessary steps to link code to the activity
+    //Introduced the location manager which gives GPS location
+    //--------------------------------------------------------
     private TextView textView, textView2;
     private LocationManager locationManager;
     public static Double longitude, latitude;
-
+    //------------------------------------
+    //When the record button is clicked,
+    //change the screen to the record page
+    //------------------------------------
     public void recordClick(View view) {
         Intent myIntent = new Intent(MainActivity.this, RecordActivity.class); //Create a new intent
         MainActivity.this.startActivity(myIntent);
     }
-
+    //----------------------------------------------------------
+    //search the nearest tree according to the location entered,
+    //and then pass the location of nearest tree in the array
+    //to the search page
+    //----------------------------------------------------------
     public void onSearch(View view){
         Intent myIntent = new Intent(this, TreeSearch.class);
         Tree reference = new Tree(Double.parseDouble(textView.getText().toString()), Double.parseDouble(textView2.getText().toString()));
-
         int loc = reference.getNearestTreeLoc(Tree.treeArray);
         myIntent.putExtra("location", loc);
         MainActivity.this.startActivity(myIntent);
@@ -55,7 +70,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     public static ArrayList<Tree> tempArray = new ArrayList<>();
     public static ArrayList<DatabaseReference> dr = new ArrayList<>();
-
+    //----------------------------------------------------------------------------
+    //When each time the main screen is started, the app links to the firebase and
+    //reads all tree data stored in the firebase, then it would record the data
+    //as a tree object with attibutes acquired from firebase, then it will store
+    //the tree into a static tree array inside tree class allowing future access
+    //----------------------------------------------------------------------------
     @Override
     protected void onStart() {
         super.onStart();
@@ -71,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     mSingleTree = posSnapshot.getRef();
                     mSingleTree.keepSynced(true);
                     mSingleTree.addValueEventListener(new ValueEventListener() {
+                        //----------------------------------------------
+                        //Create a new tree object with read attributes,
+                        //then store the tree into array
+                        //----------------------------------------------
                         @Override
                         public void onDataChange(@NonNull DataSnapshot postSnapshot) {
                             Tree a = new Tree();
@@ -107,7 +131,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         });
         if(Tree.treeArray.size() > 0)System.out.print(Tree.treeArray.get(0).toString());
     }
-
+    //----------------------------------------------------------
+    //Setting up links to objects in the main screen at start up
+    //----------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         textView = findViewById(R.id.editText);
         textView2 = findViewById(R.id.editText2);
+        //---------------------------------
+        //Require location access at create
+        //---------------------------------
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         /*if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
@@ -136,7 +165,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         //askPermission();
     }
-
+    //-------------------------------------------------------
+    //Methods to require and check if GPS location is granted
+    //-------------------------------------------------------
     public void onRequestPermissionsResult(
             int requestCode,
             String[] permissions,
@@ -173,7 +204,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
         onLocationChanged(location);
     }
-
+    //-------------------------------------------------------------------------------------------
+    //When location has changed, parse the current location into latitude and longitude variables
+    //-------------------------------------------------------------------------------------------
     @Override
     public void onLocationChanged(Location location) {
         longitude = Double.parseDouble(("" + location.getLongitude()).substring(0, 8));
@@ -194,7 +227,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onProviderDisabled(String provider) {
         
     }
-
+    //--------------------------------------------------------------------------
+    //When the current location button is clicked, pass the location variable to
+    //the edit text view
+    //--------------------------------------------------------------------------
     public void onClick(View view){
         //askPermission();
         textView.setText("" + latitude);
