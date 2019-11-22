@@ -29,17 +29,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.nio.MappedByteBuffer;
 import java.util.ArrayList;
 
-/**
- * Created by James Wang and Tianwei Liu on 11/7/2019
- */
-
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private TextView textView, textView2;
     private LocationManager locationManager;
     public static Double longitude, latitude;
 
-    public void recordClick(View view) { //Start the record activity
+    public void recordClick(View view) {
         Intent myIntent = new Intent(MainActivity.this, RecordActivity.class); //Create a new intent
         MainActivity.this.startActivity(myIntent);
     }
@@ -119,19 +115,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         textView = findViewById(R.id.editText);
         textView2 = findViewById(R.id.editText2);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //used to get coordinate
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         /*if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             OnGPS();
         }else{*/
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) { //If the permission of location service is not granted
+                != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 10); //Request the permission from user
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET}, 10);
             }else{
                 Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-                onLocationChanged(location); //Get the coordinate directly
+                onLocationChanged(location);
             }
         //}
 
@@ -147,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             int[] grantResults
     ){
         if (grantResults[0]==PackageManager.PERMISSION_GRANTED){
-            Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER); //If user accepted the request, get the location
+            Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
             onLocationChanged(location);
         }
     }
@@ -179,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     @Override
-    public void onLocationChanged(Location location) { //Set the current longitude and latitude
+    public void onLocationChanged(Location location) {
         longitude = Double.parseDouble(("" + location.getLongitude()).substring(0, 8));
         latitude = Double.parseDouble(("" + location.getLatitude()).substring(0, 8));
     }
