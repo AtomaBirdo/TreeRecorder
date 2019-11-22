@@ -37,12 +37,16 @@ public class RecordActivity extends AppCompatActivity {
     private TextView treeType, treeLatin, treeLatitude, treeLongitude, treeDescription;
     private Button fillLocation, submitInfo;
 
-    public void fill(View view){ //Autofill the current longitude and latitude
+    public void fill(View view){
+        //-------------------------------------------
+        //Autofill the current longitude and latitude
+        //to the respective TextView
+        //-------------------------------------------
         treeLatitude.setText("" + MainActivity.latitude);
         treeLongitude.setText("" + MainActivity.longitude);
     }
 
-    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference(); //Get the root reference from the database
 
     public void submit(View view){
         Tree temp = new Tree(treeType.getText().toString(), treeLatin.getText().toString(),
