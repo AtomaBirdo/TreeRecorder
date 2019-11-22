@@ -20,20 +20,101 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.nio.MappedByteBuffer;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
-    private TextView textView;
+    private TextView textView, textView2;
     private LocationManager locationManager;
-    private Double longitude, latitude;
+    public static Double longitude, latitude;
+
+    public void recordClick(View view) {
+        Intent myIntent = new Intent(MainActivity.this, RecordActivity.class); //Create a new intent
+        MainActivity.this.startActivity(myIntent);
+    }
+
+    public void onSearch(View view){
+        Intent myIntent = new Intent(this, TreeSearch.class);
+        Tree reference = new Tree(Double.parseDouble(textView.getText().toString()), Double.parseDouble(textView2.getText().toString()));
+
+        int loc = reference.getNearestTreeLoc(Tree.treeArray);
+        myIntent.putExtra("location", loc);
+        MainActivity.this.startActivity(myIntent);
+    }
+
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mTreeRef = mRootRef.child("Trees");
+    DatabaseReference mSingleTree;
+
+    public static ArrayList<Tree> tempArray = new ArrayList<>();
+    public static ArrayList<DatabaseReference> dr = new ArrayList<>();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        System.out.println("asd");
+        mTreeRef.keepSynced(true);
+        mTreeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Log.e("Count " ,""+dataSnapshot.getChildrenCount());
+                System.out.println("asdg" + dataSnapshot.toString());
+                for (DataSnapshot posSnapshot: dataSnapshot.getChildren()) {
+                    System.out.print(posSnapshot);
+                    mSingleTree = posSnapshot.getRef();
+                    mSingleTree.keepSynced(true);
+                    mSingleTree.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot postSnapshot) {
+                            Tree a = new Tree();
+                            for(DataSnapshot ad: postSnapshot.getChildren()) {
+
+                                if (ad.getKey().equalsIgnoreCase("Type")) {
+                                    a.setType(ad.getValue().toString());
+                                    System.out.println("ad value is" + ad.getValue().toString());
+                                } else if (ad.getKey().equalsIgnoreCase("Latin")) {
+                                    a.setLatin(ad.getValue().toString());
+                                } else if (ad.getKey().equalsIgnoreCase("Longitude")) {
+                                    a.setLongitude(Double.parseDouble(ad.getValue().toString()));
+                                } else if (ad.getKey().equalsIgnoreCase("Latitude")) {
+                                    a.setLatitude(Double.parseDouble(ad.getValue().toString()));
+                                } else if (ad.getKey().equalsIgnoreCase("Description")) {
+                                    a.setDescription(ad.getValue().toString());
+                                }
+                            }
+                            tempArray.add(a);
+                            Tree.treeArray = tempArray;
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    dr.add(mSingleTree);
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        if(Tree.treeArray.size() > 0)System.out.print(Tree.treeArray.get(0).toString());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = (TextView) findViewById(R.id.coordiate);
+        textView = findViewById(R.id.editText);
+        textView2 = findViewById(R.id.editText2);
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         /*if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
@@ -97,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         longitude = Double.parseDouble(("" + location.getLongitude()).substring(0, 8));
         latitude = Double.parseDouble(("" + location.getLatitude()).substring(0, 8));
-
     }
 
     @Override
@@ -117,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     public void onClick(View view){
         //askPermission();
-        textView.setText("" + longitude + ", " + latitude);
+        textView.setText("" + latitude);
+        textView2.setText("" + longitude);
     }
 }
